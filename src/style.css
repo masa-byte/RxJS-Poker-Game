@@ -1,0 +1,122 @@
+body {
+    background-color: #ddddd2;
+}
+
+.playerInput {
+    font-size: larger;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    max-width: fit-content;
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
+.chipsInput {
+    font-size: larger;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    max-width: fit-content;
+    margin-bottom: 10px;
+    margin-left: 5px;
+}
+
+.timerNotification {
+    border: 2px solid black;
+    font-size: larger;
+    font-weight: bold;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+    padding: 5px;
+    background-color: #94e6ec;
+}
+
+.timer {
+    font-size: x-large;
+}
+
+.deck {
+    font-size: larger;
+    border: 2px solid black;
+    margin-top: 5px;
+    padding-left: 5px;
+    padding-right: 5px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color: #c2c4a5;
+    margin-bottom: 15px;
+}
+
+.communityCards {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.communityCard {
+    border: 2px solid black;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 15%;
+    max-width: 120px;
+    text-align: center;
+    background-color: white;
+}
+
+.communityCard4 {
+    margin-right: 5px;
+}
+
+.players {
+    margin-top: 10px;
+    border: 2px solid black;
+    font-size: larger;
+    background-color: #c5bdc2;
+}
+
+.player {
+    border: 2px double #795f6c;
+    margin: 3px;
+    padding: 5px;
+    flex: 1;
+}
+
+.player0, .player1 {
+    margin-bottom: 10px;
+}
+
+.playerCards {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.playerCard {
+    border: 2px solid black;
+    margin-left: 15px;
+    margin-bottom: 10px;
+    padding: 5px;
+    width: 25%;
+    max-width: 150px;
+    text-align: center;
+    background-color: white;
+}
+
+.playerCard1 {
+    margin-right: 5px;
+}
+
+.playerName {
+    font-size: larger;
+    font-weight: bold;
+}
+
+.playerChips, #chips {
+    font-size: larger;
+    font-weight: bold;
+}
