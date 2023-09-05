@@ -89,7 +89,7 @@ body {
     margin-bottom: 10px;
 }
 
-.playerCards {
+.playerCards0, .playerCards1, .playerCards2 {
     display: flex;
     flex-direction: row;
     align-items: center;

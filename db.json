@@ -1,340 +1,316 @@
 {
-    "cards": [
+    "deck_cards": [
         {
             "id": 0,
             "color": "red",
             "value": 1,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 1,
             "color": "red",
             "value": 2,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 2,
             "color": "red",
             "value": 3,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 3,
             "color": "red",
             "value": 4,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 4,
             "color": "red",
             "value": 5,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 5,
             "color": "red",
             "value": 6,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 6,
             "color": "red",
             "value": 7,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 7,
             "color": "red",
             "value": 8,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 8,
             "color": "red",
             "value": 9,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 9,
             "color": "red",
             "value": 10,
-            "sign": "heart"
-        },
-        {
-            "id": 10,
-            "color": "red",
-            "value": 11,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 11,
             "color": "red",
             "value": 12,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 12,
             "color": "red",
             "value": 13,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 13,
             "color": "red",
             "value": 14,
-            "sign": "heart"
+            "suit": "heart"
         },
         {
             "id": 14,
             "color": "red",
             "value": 1,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 15,
             "color": "red",
             "value": 2,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 16,
             "color": "red",
             "value": 3,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 17,
             "color": "red",
             "value": 4,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 18,
             "color": "red",
             "value": 5,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 19,
             "color": "red",
             "value": 6,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 20,
             "color": "red",
             "value": 7,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 21,
             "color": "red",
             "value": 8,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 22,
             "color": "red",
             "value": 9,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 23,
             "color": "red",
             "value": 10,
-            "sign": "diamond"
-        },
-        {
-            "id": 24,
-            "color": "red",
-            "value": 11,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 25,
             "color": "red",
             "value": 12,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 26,
             "color": "red",
             "value": 13,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 27,
             "color": "red",
             "value": 14,
-            "sign": "diamond"
+            "suit": "diamond"
         },
         {
             "id": 28,
             "color": "black",
             "value": 1,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 29,
             "color": "black",
             "value": 2,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 30,
             "color": "black",
             "value": 3,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 31,
             "color": "black",
             "value": 4,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 32,
             "color": "black",
             "value": 5,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 33,
             "color": "black",
             "value": 6,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 34,
             "color": "black",
             "value": 7,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 35,
             "color": "black",
             "value": 8,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 36,
             "color": "black",
             "value": 9,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 37,
             "color": "black",
             "value": 10,
-            "sign": "spade"
-        },
-        {
-            "id": 38,
-            "color": "black",
-            "value": 11,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 39,
             "color": "black",
             "value": 12,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 40,
             "color": "black",
             "value": 13,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 41,
             "color": "black",
             "value": 14,
-            "sign": "spade"
+            "suit": "spade"
         },
         {
             "id": 42,
             "color": "black",
             "value": 1,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 43,
             "color": "black",
             "value": 2,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 44,
             "color": "black",
             "value": 3,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 45,
             "color": "black",
             "value": 4,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 46,
             "color": "black",
             "value": 5,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 47,
             "color": "black",
             "value": 6,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 48,
             "color": "black",
             "value": 7,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 49,
             "color": "black",
             "value": 8,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 50,
             "color": "black",
             "value": 9,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 51,
             "color": "black",
             "value": 10,
-            "sign": "club"
-        },
-        {
-            "id": 52,
-            "color": "black",
-            "value": 11,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 53,
             "color": "black",
             "value": 12,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 54,
             "color": "black",
             "value": 13,
-            "sign": "club"
+            "suit": "club"
         },
         {
             "id": 55,
             "color": "black",
             "value": 14,
-            "sign": "club"
+            "suit": "club"
         }
     ]
 }

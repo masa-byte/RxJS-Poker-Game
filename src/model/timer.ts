@@ -1,8 +1,8 @@
-import { Subject, Subscription, interval } from "rxjs";
+import { Observable, Subject, Subscription, interval } from "rxjs";
 
 export class Timer {
     private time: number;
-    public timerSubject: Subject<number>;
+    private timerSubject: Subject<number>;
     private intervalSubscription: Subscription;
 
     constructor() {
@@ -37,5 +37,9 @@ export class Timer {
     public reset() {
         this.timerSubject.next(-1);
         this.stop();
+    }
+
+    public getTimerSubject(): Observable<number> {
+        return this.timerSubject.asObservable();
     }
 }

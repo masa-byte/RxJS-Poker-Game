@@ -74,26 +74,12 @@ export function drawDeck(container: HTMLElement) {
     const divMain = document.createElement("div");
     divMain.classList.add("deck");
 
-    const divCards = document.createElement("div");
-    divCards.classList.add("cardInfo");
-
-    const labelDeck = document.createElement("label");
-    labelDeck.htmlFor = "deck";
-    labelDeck.innerText = "Cards left: ";
-
-    const spanCards = document.createElement("span");
-    spanCards.id = "cardsLeft";
-    spanCards.innerText = "52";
-
     const divCommunityCards = document.createElement("div");
     divCommunityCards.classList.add("communityCards");
     divCommunityCards.innerText = "Community cards: ";
 
     drawCommunityCards(divCommunityCards);
 
-    divCards.appendChild(labelDeck);
-    divCards.appendChild(spanCards);
-    divMain.appendChild(divCards);
     divMain.appendChild(divCommunityCards);
     container.appendChild(divMain);
 }
@@ -127,10 +113,13 @@ function drawPlayers(container: HTMLElement) {
         divName.classList.add("playerName");
         divName.innerText = "Bot" + i;
 
-        if(i == 0) divName.innerText = "You";
+        if(i == 0) { 
+            divName.innerText = "You";
+            divName.id = "playerName";
+        }
 
         const divCards = document.createElement("div");
-        divCards.classList.add("playerCards");
+        divCards.classList.add("playerCards" + i);
         divCards.innerText = "Cards: ";
 
         drawPlayerCards(divCards);
@@ -140,7 +129,7 @@ function drawPlayers(container: HTMLElement) {
         divChips.innerText = "Chips: ";
 
         const spanChips = document.createElement("span");
-        spanChips.id = "chips";
+        spanChips.id = "chips" + i;
         spanChips.innerText = "n/a";
 
         divChips.appendChild(spanChips);
