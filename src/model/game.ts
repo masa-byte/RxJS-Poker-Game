@@ -2,7 +2,7 @@ import { Observable, Subject, bufferCount, distinctUntilChanged, from, mergeMap,
 import { Card } from "./card";
 import { Player } from "./player";
 import { environments } from "../environments";
-import { Action } from "./Action";
+import { Action } from "./action";
 
 export class Game {
     private cardIndex: number;

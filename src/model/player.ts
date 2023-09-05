@@ -1,7 +1,7 @@
-import { Action } from "./Action";
 import { Card } from "./card";
 import { Game } from "./game";
 import { HandStrength } from "./handStrength";
+import { Action } from "./action";
 
 export class Player {
     private handStrength: HandStrength;
@@ -191,7 +191,7 @@ export class Player {
             coefficient = 0.5;
         else if (this.handStrength === HandStrength.Weak)
             coefficient = 0.3;
-        
+
         const action = Math.random() < coefficient ? Action.Raise : Action.Fold;
         return action;
     }
