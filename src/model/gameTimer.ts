@@ -2,9 +2,9 @@ import { Observable, Subject, Subscription, interval } from "rxjs";
 
 export class GameTimer {
     private time: number;
-    private round: number;
+    public round: number;
     private timerSubject: Subject<number>;
-    private roundSubject: Subject<number>;
+    public roundSubject: Subject<number>;
     private intervalSubscription: Subscription;
 
     constructor() {
@@ -17,8 +17,7 @@ export class GameTimer {
 
     public start() {
         this.time = 5;
-
-        this.stop();
+        this.round = 1;
 
         this.timerSubject.next(this.time);
         this.roundSubject.next(this.round);
@@ -26,14 +25,19 @@ export class GameTimer {
         this.intervalSubscription = interval(1000).subscribe(() => {
             if (this.time > 0) {
                 this.time--;
-                if (this.time == 0) {
-                    this.round += 1;
-                    this.stop();
-                    if (this.round == 4) {
-                        this.roundSubject.next(this.round);
-                    }
-                }
                 this.timerSubject.next(this.time);
+            } 
+            else {
+                this.round++;
+                this.roundSubject.next(this.round);
+
+                if (this.round === 4) {
+                    this.stop();
+                } 
+                else {
+                    this.time = 5;
+                    this.timerSubject.next(this.time);
+                }
             }
         });
     }

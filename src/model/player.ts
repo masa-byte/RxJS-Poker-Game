@@ -1,6 +1,6 @@
 import { Card } from "./card";
 import { Game } from "./game";
-import { HandStrength } from "./handStrength";
+import { HandStrength, dictionaryHandStrength } from "./handStrength";
 import { Action } from "./action";
 
 export class Player {
@@ -9,6 +9,7 @@ export class Player {
     public nickname: string;
     public chips: number;
     public cardIndex: number;
+    public folded: boolean;
     public game: Game;
     public cards: Card[];
     public chipsDisplay: HTMLElement;
@@ -21,6 +22,7 @@ export class Player {
         this.cardsDisplay = cardsDisplay;
         this.chipsDisplay = chipsDisplay;
         this.cardIndex = 0;
+        this.folded = false;
     }
 
     private resetCards(fold: boolean) {
@@ -32,7 +34,7 @@ export class Player {
                 cardDisplay.style.color = "black";
             });
             if (this.game)
-                this.game.resetCards();
+                this.game.resetGame();
         }
         else {
             this.cardsDisplay.forEach((cardDisplay) => {
@@ -139,7 +141,7 @@ export class Player {
         cards = cards.sort((a, b) => parseInt(a.value) - parseInt(b.value));
 
         this.handStrength = this.evaluateHand(cards);
-        console.log(`Player ${this.nickname} has ${this.handStrength} hand`);
+        console.log(`Player ${this.nickname} has ${dictionaryHandStrength[this.handStrength]} hand`);
 
         if (this.handStrength === HandStrength.ExtremelyStrong) {
             return [Action.Raise, this.chips / 2];
@@ -159,29 +161,34 @@ export class Player {
                 return [Action.CheckCall, 0];
         }
         else if (this.handStrength === HandStrength.Weak) {
-            const action = Math.random() < 0.8 ? Action.CheckCall : Action.Fold;
+            const action = Math.random() < 0.9 ? Action.CheckCall : Action.Fold;
             return [action, 0];
         }
     }
 
     public addCard(card: Card) {
         this.cards.push(card);
-        this.cardsDisplay[this.cardIndex].innerHTML = `${card.value} ${card.suit}`;
+        this.cardsDisplay[this.cardIndex].innerText = `${card.value} ${card.suit}`;
         this.cardsDisplay[this.cardIndex].style.color = card.color;
         this.cardIndex + 1 == this.cardsDisplay.length ? this.cardIndex = 0 : this.cardIndex++;
     }
 
     public updateChips(chips: number | string) {
+        this.folded = false;
         this.chips = chips == "n/a" ? 0 : chips as number;
         this.resetCards(false);
         this.chipsDisplay.innerText = chips.toString();
     }
 
     public fold() {
+        this.folded = true;
         this.resetCards(true);
     }
 
-    public raiseOrFold(): Action {
+    public raiseOrFold(amountRaised: number): Action {
+        if (this.chips < amountRaised)
+            return Action.Fold;
+
         let coefficient = 0;
         if (this.handStrength === HandStrength.ExtremelyStrong)
             coefficient = 0.9;

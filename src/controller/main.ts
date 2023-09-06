@@ -1,4 +1,4 @@
-import { combineLatest, startWith } from "rxjs";
+import { Subscription, combineLatest, startWith } from "rxjs";
 import { playerNicknameObservable, playerChipsObservable } from "./observables";
 import { Timer } from "../model/timer";
 import { GameTimer } from "../model/gameTimer";
@@ -26,12 +26,23 @@ export function start() {
         [document.body.querySelector(".playerCards2 .playerCard0"), document.body.querySelector(".playerCards2 .playerCard1")] as HTMLElement[])
     ];
 
+    const game = new Game(players, document.body.querySelectorAll(".communityCard") as unknown as HTMLElement[]);
+    const gameSubscription: Subscription | undefined = undefined;
+
     const combined = combineLatest([
         playerNickname.pipe(startWith('')),
         playerChips.pipe(startWith(0))
     ]);
 
     combined.subscribe(([playerNick, playerChips]) => {
+        gameTimer.stop();
+        game.resetGame();
+        if (gameSubscription) {
+            gameSubscription.unsubscribe();
+        }
+        game.getRoundSubject().next(-1);
+        gameTimer.roundSubject.next(-1);
+
         if (playerNick && playerChips) {
             updateNotification(3, playerNick, playerChips);
             players[0].nickname = playerNick;
@@ -58,7 +69,6 @@ export function start() {
             updateChips(players, "n/a");
             timer.reset();
         }
-        gameTimer.stop();
     });
 
     timer.getTimerSubject().subscribe((time) => {
@@ -69,7 +79,7 @@ export function start() {
             spanTimer.innerText = time.toString();
 
             if (time == 0) {
-                startGame(gameTimer, players);
+                startGame(gameTimer, players, gameSubscription, game);
             }
         }
     });
@@ -99,23 +109,24 @@ function updateChips(players: Player[], chipsAmount: number | string) {
     });
 }
 
-function startGame(timer: GameTimer, players: Player[]) {
+function startGame(timer: GameTimer, players: Player[], gameSubscription: Subscription | undefined, game: Game) {
+    console.log("Game started!");
+
     const notification = document.getElementById("notification");
     const spanTimer = document.getElementById("timer");
 
-    const game = new Game(players, document.body.querySelectorAll(".communityCard") as unknown as HTMLElement[]);
-
-    combineLatest([timer.getTimerSubject(), timer.getRoundSubject()]).subscribe(([time, round]) => {
+    gameSubscription = combineLatest([
+        timer.getTimerSubject(),
+        timer.getRoundSubject(),
+        game.getVictorySubject().pipe(startWith("n/a"))
+    ]).subscribe(([time, round, victor]) => {
         spanTimer.innerText = time.toString();
         notification.innerText = "Round: " + round.toString();
         game.getRoundSubject().next(round);
 
-        if (round == 4) {
-            notification.innerText = "Game ended!";
-            timer.stop();
-        }
-        else if (time == 0) {
-            timer.start();
+        if (victor != "n/a") {
+            notification.innerText = `Game ended! ${victor} won! Congratulations!`;
+            gameSubscription.unsubscribe();
         }
     });
 
