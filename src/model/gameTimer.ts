@@ -31,7 +31,7 @@ export class GameTimer {
                 this.round++;
                 this.roundSubject.next(this.round);
 
-                if (this.round === 4) {
+                if (this.round === 5) {
                     this.stop();
                 } 
                 else {

@@ -4,6 +4,9 @@ import { Timer } from "../model/timer";
 import { GameTimer } from "../model/gameTimer";
 import { Game } from "../model/game";
 import { Player } from "../model/player";
+import { dictionaryHandRankings } from "../model/interfaces/handRankings";
+import { numberOfPlayers } from "../environments";
+
 
 export function start() {
     const timer = new Timer();
@@ -17,14 +20,13 @@ export function start() {
     const playerChipsInput = document.getElementById("playerChipsInput");
     const playerChips = playerChipsObservable(playerChipsInput);
 
-    const players = [
-        new Player(0, undefined, document.getElementById("chips0"), 
-        [document.body.querySelector(".playerCards0 .playerCard0"), document.body.querySelector(".playerCards0 .playerCard1")] as HTMLElement[]),
-        new Player(1, "bot1", document.getElementById("chips1"), 
-        [document.body.querySelector(".playerCards1 .playerCard0"), document.body.querySelector(".playerCards1 .playerCard1")] as HTMLElement[]), 
-        new Player(2, "bot2", document.getElementById("chips2"),
-        [document.body.querySelector(".playerCards2 .playerCard0"), document.body.querySelector(".playerCards2 .playerCard1")] as HTMLElement[])
-    ];
+    const players = [new Player(0, undefined, document.getElementById("chips0"),
+        [document.body.querySelector(".playerCards0 .playerCard0"), document.body.querySelector(".playerCards0 .playerCard1")] as HTMLElement[])];
+
+    for (let i = 1; i < numberOfPlayers; i++) {
+        players.push(new Player(i, "bot" + i, document.getElementById("chips" + i),
+            [document.body.querySelector(".playerCards" + i + " .playerCard0"), document.body.querySelector(".playerCards" + i + " .playerCard1")] as HTMLElement[]));
+    }
 
     const game = new Game(players, document.body.querySelectorAll(".communityCard") as unknown as HTMLElement[]);
     const gameSubscription: Subscription | undefined = undefined;
@@ -125,7 +127,8 @@ function startGame(timer: GameTimer, players: Player[], gameSubscription: Subscr
         game.getRoundSubject().next(round);
 
         if (victor != "n/a") {
-            notification.innerText = `Game ended! ${victor} won! Congratulations!`;
+            victor = victor as Player;
+            notification.innerText = `Game ended! ${victor.nickname} won with ${dictionaryHandRankings[victor.handRanking]}! Congratulations!`;
             gameSubscription.unsubscribe();
         }
     });

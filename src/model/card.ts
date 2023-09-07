@@ -2,6 +2,6 @@
 export interface Card {
     id: number;
     suit: string;
-    value: string;
+    value: number;
     color: string;
 }

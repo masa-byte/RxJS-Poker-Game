@@ -1,3 +1,4 @@
+import { numberOfPlayers } from "../environments";
 
 export function drawPlayerInput(container: HTMLElement) {
     const divNick = document.createElement("div");
@@ -104,10 +105,12 @@ export function drawPlayersInfo(container: HTMLElement) {
 }
 
 function drawPlayers(container: HTMLElement) {
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < numberOfPlayers; i++) {
         const divPlayer = document.createElement("div");
         divPlayer.classList.add("player");
         divPlayer.classList.add("player" + i);
+        if(i != numberOfPlayers - 1) 
+            divPlayer.style.marginBottom = "10px";
 
         const divName = document.createElement("div");
         divName.classList.add("playerName");
@@ -121,6 +124,10 @@ function drawPlayers(container: HTMLElement) {
         const divCards = document.createElement("div");
         divCards.classList.add("playerCards" + i);
         divCards.innerText = "Cards: ";
+        divCards.style.display = "flex";
+        divCards.style.flexDirection = "row";
+        divCards.style.alignItems = "center";
+        divCards.style.justifyContent = "space-between";
 
         drawPlayerCards(divCards);
 
