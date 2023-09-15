@@ -1,20 +1,22 @@
-import { Observable, Subject, bufferCount, distinctUntilChanged, from, mergeMap, of, switchMap, take } from "rxjs";
-import { Card } from "./card";
+import { Observable, Subject, bufferCount, distinctUntilChanged, from, mergeMap, of, skip, switchMap, take } from "rxjs";
+import { Card } from "./interfaces/card";
 import { Player } from "./player";
 import { environments } from "../environments";
-import { Action, dictionaryActions } from "./interfaces/action";
-import { dictionaryHandRankings } from "./interfaces/handRankings";
+import { Action, dictionaryActions } from "./enumerations/action";
+import { dictionaryHandRankings } from "./enumerations/handRankings";
 
 export class Game {
     private cardIndex: number;
     private pot: number;
     private players: Player[];
     private cards: Card[];
+    private communityCardsDisplay: HTMLElement[];
     private filteredCards: Card[];
+
     public communityCards: Card[];
+
     public roundSubject: Subject<number>;
     public victorySubject: Subject<Player>;
-    private communityCardsDisplay: HTMLElement[];
 
     constructor(players: Player[], communityCardsDisplay: HTMLElement[]) {
         this.players = players;
@@ -72,14 +74,6 @@ export class Game {
             victor.bet(this.pot);
             console.log(`Victory! ${victor.nickname} won with ${dictionaryHandRankings[victor.handRanking]}! Congratulations!`);
         })
-    }
-
-    public resetGame() {
-        this.cardIndex = 0;
-        this.pot = 0;
-        this.communityCards = [];
-        this.filteredCards = this.cards;
-        this.resetCards();
     }
 
     private resetCards() {
@@ -161,80 +155,77 @@ export class Game {
     }
 
     private bet(): Observable<null> {
-        let idsOfPlayersRaised = [];
+        const idsOfPlayersRaised: number[] = [];
         let amountRaised = 0;
-        let result = false;
+        let victor = false;
 
-        for (let i = this.players.length - 1; i >= 0; i--) {
-            if (this.players[i].folded)
-                continue;
-
-            result = this.checkForVictory();
-            if (result)
-                return of(null);
-
-            if (idsOfPlayersRaised.length != 0) {
-                const action = this.players[i].raiseOrFold(amountRaised);
-                if (action == Action.Fold) {
-                    this.players[i].fold();
-                }
-                else {
-                    this.pot += amountRaised;
-                    this.players[i].bet(-amountRaised);
-                    idsOfPlayersRaised.push(this.players[i].id);
-                }
-                console.log(`${this.players[i].nickname} action: ${dictionaryActions[action]} betting: ${action == Action.Fold ? 0 : amountRaised}`);
-            }
-            else {
-                const [action, bet] = this.players[i].play();
-                console.log(`${this.players[i].nickname} action: ${dictionaryActions[action]} betting: ${bet}`);
-                switch (action) {
-                    case Action.Fold:
-                        this.players[i].fold();
-                        break;
-                    case Action.Raise:
-                        this.pot += bet;
-                        amountRaised = bet;
-                        this.players[i].bet(-amountRaised);
-                        idsOfPlayersRaised.push(this.players[i].id);
-                        console.log(`Player ${this.players[i].id} raised ${bet}`);
-                        break;
-                }
-            }
-        }
-        console.log(`Pot: ${this.pot}`);
-        result = this.checkForVictory();
-        if (result)
-            return of(null);
-
-        // in case not the first playter raised
-        if (idsOfPlayersRaised.length != 0) {
-            console.log(`Raising time!`);
-
-            for (let i = this.players.length - 1; i >= 0; i--) {
-                if (this.players[i].folded)
-                    continue;
-
-                result = this.checkForVictory();
-                if (result)
+        this.players.forEach(player => {
+            if (!player.folded) {
+                victor = this.checkForVictory();
+                if (victor)
                     return of(null);
 
-                if (idsOfPlayersRaised.indexOf(this.players[i].id) == -1) {
-                    const action = this.players[i].raiseOrFold(amountRaised);
+                if (idsOfPlayersRaised.length != 0) {
+                    const action = player.raiseOrFold(amountRaised);
                     if (action == Action.Fold) {
-                        this.players[i].fold();
+                        player.fold();
                     }
                     else {
                         this.pot += amountRaised;
-                        this.players[i].bet(-amountRaised);
-                        idsOfPlayersRaised.push(this.players[i].id);
+                        player.bet(-amountRaised);
+                        idsOfPlayersRaised.push(player.id);
                     }
-                    console.log(`${this.players[i].nickname} action: ${dictionaryActions[action]} betting: ${action == Action.Fold ? 0 : amountRaised}`);
+                    console.log(`${player.nickname} action: ${dictionaryActions[action]} betting: ${action == Action.Fold ? 0 : amountRaised}`);
+                }
+                else {
+                    const [action, bet] = player.play();
+                    console.log(`${player.nickname} action: ${dictionaryActions[action]} betting: ${bet}`);
+                    switch (action) {
+                        case Action.Fold:
+                            player.fold();
+                            break;
+                        case Action.Raise:
+                            this.pot += bet;
+                            amountRaised = bet;
+                            player.bet(-amountRaised);
+                            idsOfPlayersRaised.push(player.id);
+                            console.log(`Player ${player.id} raised ${bet}`);
+                            break;
+                    }
                 }
             }
+        });
+        console.log(`Pot: ${this.pot}`);
+        victor = this.checkForVictory();
+        if (victor)
+            return of(null);
+
+        // in case not the first player raised
+        if (idsOfPlayersRaised.length != 0 && idsOfPlayersRaised.length != this.players.length) {
+            console.log(`Raising time!`);
+
+            this.players.forEach(player => {
+                if (!player.folded) {
+                    victor = this.checkForVictory();
+                    if (victor)
+                        return of(null);
+
+                    if (idsOfPlayersRaised.indexOf(player.id) == -1) {
+                        const action = player.raiseOrFold(amountRaised);
+                        if (action == Action.Fold)
+                            player.fold();
+                        else {
+                            this.pot += amountRaised;
+                            player.bet(-amountRaised);
+                            idsOfPlayersRaised.push(player.id);
+                        }
+                        console.log(`${player.nickname} action: ${dictionaryActions[action]} betting: ${action == Action.Fold ? 0 : amountRaised}`);
+                    }
+                }
+            });
             console.log(`Pot: ${this.pot}`);
         }
-        result = this.checkForVictory();
+        victor = this.checkForVictory();
 
         return of(null);
     }
@@ -272,8 +263,8 @@ export class Game {
     }
 
     private determineWinner() {
-        let winner;
-        let index = 0;
+        let winner: Player = null;
+        let index = undefined;
         for (let i = 0; i < this.players.length; i++) {
             if (this.players[i].folded == false) {
                 winner = this.players[i];
@@ -287,6 +278,7 @@ export class Game {
         for (let i = index + 1; i < this.players.length; i++) {
             if (this.players[i].folded)
                 continue;
+            
             const currentRank = this.players[i].handRanking;
             if (currentRank > bestRank) {
                 winner = this.players[i];
@@ -335,7 +327,7 @@ export class Game {
                                     diff = true;
                                     break;
                                 }
-                            }                       
+                            }
                         }
                         if (diff) {
                             winner = this.players[i];
@@ -361,6 +353,14 @@ export class Game {
         }
 
         this.victorySubject.next(winner);
+    }
+
+    public resetGame() {
+        this.cardIndex = 0;
+        this.pot = 0;
+        this.communityCards = [];
+        this.filteredCards = this.cards;
+        this.resetCards();
     }
 
     public getRoundSubject(): Subject<number> {

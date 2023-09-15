@@ -2,6 +2,7 @@ import { Observable, Subject, Subscription, interval } from "rxjs";
 
 export class Timer {
     private time: number;
+    
     private timerSubject: Subject<number>;
     private intervalSubscription: Subscription;
 

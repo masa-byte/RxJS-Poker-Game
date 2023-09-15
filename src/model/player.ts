@@ -1,13 +1,14 @@
-import { Card } from "./card";
+import { Card } from "./interfaces/card";
 import { Game } from "./game";
-import { HandStrength, dictionaryHandStrength } from "./interfaces/handStrength";
-import { Action } from "./interfaces/action";
+import { HandStrength, dictionaryHandStrength } from "./enumerations/handStrength";
+import { Action } from "./enumerations/action";
 import { PlayerHand } from "./interfaces/playerHand";
-import { HandRankings } from "./interfaces/handRankings";
+import { HandRankings } from "./enumerations/handRankings";
 import { Subject } from "rxjs";
 
 export class Player {
     private handStrength: HandStrength;
+
     public id: number;
     public nickname: string;
     public chips: number;
@@ -15,10 +16,13 @@ export class Player {
     public folded: boolean;
     public game: Game;
     public cards: Card[];
+    public handRanking: HandRankings;
+
     public chipsDisplay: HTMLElement;
     public cardsDisplay: HTMLElement[];
-    public handRanking: HandRankings;
+    
     public chipsSubject: Subject<number | string>;
+
     public hand: PlayerHand = {
         StraightFlush: [],
         FourOfAKind: undefined,
@@ -47,6 +51,7 @@ export class Player {
     private resetCards(fold: boolean) {
         this.cards = [];
         this.cardIndex = 0;
+
         if (fold == false) {
             this.cardsDisplay.forEach((cardDisplay) => {
                 cardDisplay.innerText = "n/a";
@@ -231,6 +236,7 @@ export class Player {
     public play(): [Action, number] {
         let cards = this.cards.concat(this.game.communityCards);
         cards = cards.sort((a, b) => a.value - b.value);
+        
         if (cards[0].value == 1)
             cards.push(cards[0]);
 

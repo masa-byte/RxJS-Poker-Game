@@ -2,10 +2,13 @@ import { Observable, Subject, Subscription, interval } from "rxjs";
 
 export class GameTimer {
     private time: number;
-    public round: number;
+
     private timerSubject: Subject<number>;
-    public roundSubject: Subject<number>;
     private intervalSubscription: Subscription;
+
+    public round: number;
+    
+    public roundSubject: Subject<number>;
 
     constructor() {
         this.time = 0;
