@@ -19,7 +19,7 @@ export class GameTimer {
     }
 
     public start() {
-        this.time = 5;
+        this.time = 20;
         this.round = 1;
 
         this.timerSubject.next(this.time);

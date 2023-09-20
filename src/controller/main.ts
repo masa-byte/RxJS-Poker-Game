@@ -38,6 +38,7 @@ export function start() {
     ]);
 
     combined.subscribe(([playerNick, playerChips]) => {
+        enableButtons(false);
         gameTimer.stop();
         game.resetGame();
         if (gameSubscription) {
@@ -114,6 +115,7 @@ function updateChips(players: Player[], chipsAmount: number | string) {
 
 function startGame(timer: GameTimer, players: Player[], gameSubscription: Subscription | undefined, game: Game) {
     console.log("Game started!");
+    enableButtons(true);
 
     const spanNotification = document.getElementById("notification");
     const spanTimer = document.getElementById("timer");
@@ -135,4 +137,11 @@ function startGame(timer: GameTimer, players: Player[], gameSubscription: Subscr
     });
 
     timer.start();
+}
+
+function enableButtons(enable: boolean) {
+    const buttons = document.querySelectorAll("button");
+    buttons.forEach((button) => {
+        button.disabled = !enable;
+    });
 }

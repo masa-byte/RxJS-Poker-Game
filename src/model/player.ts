@@ -20,7 +20,7 @@ export class Player {
 
     public chipsDisplay: HTMLElement;
     public cardsDisplay: HTMLElement[];
-    
+
     public chipsSubject: Subject<number | string>;
 
     public hand: PlayerHand = {
@@ -137,16 +137,14 @@ export class Player {
         }
 
         for (const key of valueCounts.keys()) {
-            let count = valueCounts.get(key); 
+            let count = valueCounts.get(key);
             if (count == 2) {
-                console.log("pair" + key + " " + count);
                 for (let i = 0; i < cardsLength; i++) {
                     if (cards[i].value == key) {
                         this.hand.Pairs.push(cards[i]);
                         break;
                     }
                 }
-                console.log(this.nickname, this.hand.Pairs);
                 if (this.hand.Pairs.length > 1)
                     this.hand.Pairs = this.hand.Pairs.sort((a, b) => b.value - a.value);
             }
@@ -236,7 +234,7 @@ export class Player {
     public play(): [Action, number] {
         let cards = this.cards.concat(this.game.communityCards);
         cards = cards.sort((a, b) => a.value - b.value);
-        
+
         if (cards[0].value == 1)
             cards.push(cards[0]);
 
@@ -306,6 +304,60 @@ export class Player {
 
         const action = Math.random() * 100 < coefficient * 100 ? Action.Raise : Action.Fold;
         return action;
+    }
+
+    getPlayerAction(): Promise<[Action, number]> {
+        return new Promise((resolve) => {
+            const raiseButton = document.getElementById('raiseButton');
+            const foldButton = document.getElementById('foldButton');
+            const checkCallButton = document.getElementById('checkCallButton');
+
+            let cards = this.cards.concat(this.game.communityCards);
+            cards = cards.sort((a, b) => a.value - b.value);
+
+            if (cards[0].value == 1)
+                cards.push(cards[0]);
+
+            this.handStrength = this.evaluateHand(cards);
+            console.log(`Player ${this.nickname} has ${dictionaryHandStrength[this.handStrength]} hand`);
+
+            let amountRaised = 0;
+            if (this.handStrength === HandStrength.ExtremelyStrong) 
+                amountRaised = Math.floor(this.chips / 2);
+            else if (this.handStrength === HandStrength.Strong) 
+                    amountRaised = Math.floor(this.chips / 4);
+            else if (this.handStrength === HandStrength.Mid) 
+                amountRaised = Math.floor(this.chips / 8);
+            else if (this.handStrength === HandStrength.Weak) 
+                amountRaised = Math.floor(this.chips / 16)
+
+            raiseButton.addEventListener('click', () => {
+                resolve([Action.Raise, amountRaised]);
+            });
+
+            foldButton.addEventListener('click', () => {
+                resolve([Action.Fold, 0]);
+            });
+
+            checkCallButton.addEventListener('click', () => {
+                resolve([Action.CheckCall, 0]);
+            });
+        });
+    }
+
+    getPlayerCheckOrFold(): Promise<Action> {
+        return new Promise((resolve) => {
+            const raiseButton = document.getElementById('raiseButton');
+            const foldButton = document.getElementById('foldButton');
+
+            raiseButton.addEventListener('click', () => {
+                resolve(Action.Raise);
+            });
+
+            foldButton.addEventListener('click', () => {
+                resolve(Action.Fold);
+            });
+        });
     }
 }
 

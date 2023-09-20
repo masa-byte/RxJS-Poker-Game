@@ -109,25 +109,22 @@ function drawPlayers(container: HTMLElement) {
         const divPlayer = document.createElement("div");
         divPlayer.classList.add("player");
         divPlayer.classList.add("player" + i);
-        if(i != numberOfPlayers - 1) 
+        if (i != numberOfPlayers - 1)
             divPlayer.style.marginBottom = "10px";
 
         const divName = document.createElement("div");
         divName.classList.add("playerName");
         divName.innerText = "Bot" + i;
 
-        if(i == 0) { 
+        if (i == 0) {
             divName.innerText = "You";
             divName.id = "playerName";
         }
 
         const divCards = document.createElement("div");
+        divCards.classList.add("playerCards");
         divCards.classList.add("playerCards" + i);
         divCards.innerText = "Cards: ";
-        divCards.style.display = "flex";
-        divCards.style.flexDirection = "row";
-        divCards.style.alignItems = "center";
-        divCards.style.justifyContent = "space-between";
 
         drawPlayerCards(divCards);
 
@@ -145,6 +142,9 @@ function drawPlayers(container: HTMLElement) {
         divPlayer.appendChild(divCards);
         divPlayer.appendChild(divChips);
 
+        if (i == 0)
+            drawPlayerActions(divPlayer);
+
         container.appendChild(divPlayer);
     }
 }
@@ -158,3 +158,23 @@ function drawPlayerCards(container: HTMLElement) {
         container.appendChild(card);
     }
 }
+
+function drawPlayerActions(container: HTMLElement) {
+    const divActions = document.createElement("div");
+    divActions.classList.add("playerActions");
+    const btnFold = document.createElement("button");
+    btnFold.id = "foldButton";
+    btnFold.innerText = "Fold";
+    const btnCheckCall = document.createElement("button");
+    btnCheckCall.id = "checkCallButton";
+    btnCheckCall.innerText = "Check/Call";
+    const btnRaise = document.createElement("button");
+    btnRaise.id = "raiseButton";
+    btnRaise.innerText = "Raise";
+
+    divActions.appendChild(btnFold);
+    divActions.appendChild(btnCheckCall);
+    divActions.appendChild(btnRaise);
+
+    container.appendChild(divActions);
+} 

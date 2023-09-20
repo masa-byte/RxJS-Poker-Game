@@ -109,3 +109,26 @@ body {
     font-size: larger;
     font-weight: bold;
 }
+
+.playerCards {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.playerActions {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
+
+button {
+    font-size: large;
+    font-weight: bold;
+    flex: 1;
+    margin: 5px;
+    height: 40px;
+    font-family: 'Times New Roman', Times, serif;
+}

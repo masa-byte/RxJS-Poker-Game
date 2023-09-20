@@ -1,4 +1,4 @@
-import { Observable, Subject, bufferCount, distinctUntilChanged, from, mergeMap, of, skip, switchMap, take } from "rxjs";
+import { Observable, Subject, bufferCount, distinctUntilChanged, from, mergeMap, of, switchMap, take } from "rxjs";
 import { Card } from "./interfaces/card";
 import { Player } from "./player";
 import { environments } from "../environments";
@@ -12,6 +12,7 @@ export class Game {
     private cards: Card[];
     private communityCardsDisplay: HTMLElement[];
     private filteredCards: Card[];
+    private playerButtons: HTMLButtonElement[];
 
     public communityCards: Card[];
 
@@ -28,6 +29,7 @@ export class Game {
         this.cards = [];
         this.communityCards = [];
         this.communityCardsDisplay = communityCardsDisplay;
+        this.playerButtons = document.querySelectorAll("button") as unknown as HTMLButtonElement[];
         this.roundSubject = new Subject();
         this.victorySubject = new Subject();
 
@@ -125,16 +127,10 @@ export class Game {
             () => {
                 console.log("Player cards dealt");
 
-                this.bet()
-                    .subscribe(
-                        () => { },
-                        () => { },
-                        () => {
-                            console.log("Pre-betting completed");
-
-                            this.dealCommunityCards(3);
-                        }
-                    );
+                this.bet().then(() => {
+                    console.log("Pre-betting completed");
+                    this.dealCommunityCards(3);
+                });
             });
     }
 
@@ -154,12 +150,12 @@ export class Game {
         console.log("Community cards dealt");
     }
 
-    private bet(): Observable<null> {
+    private async bet(): Promise<any> {
         const idsOfPlayersRaised: number[] = [];
         let amountRaised = 0;
         let victor = false;
 
-        this.players.forEach(player => {
+        for (const player of this.players) {
             if (!player.folded) {
                 victor = this.checkForVictory();
                 if (victor)
@@ -178,7 +174,15 @@ export class Game {
                     console.log(`${player.nickname} action: ${dictionaryActions[action]} betting: ${action == Action.Fold ? 0 : amountRaised}`);
                 }
                 else {
-                    const [action, bet] = player.play();
+                    let action: Action, bet: number;
+                    if (player.id == 0) {
+                        this.enableButtons(true);
+                        [action, bet] = await player.getPlayerAction();
+                        this.enableButtons(false);
+                    }
+                    else
+                        [action, bet] = player.play();
+
                     console.log(`${player.nickname} action: ${dictionaryActions[action]} betting: ${bet}`);
                     switch (action) {
                         case Action.Fold:
@@ -194,7 +198,7 @@ export class Game {
                     }
                 }
             }
-        });
+        };
         console.log(`Pot: ${this.pot}`);
         victor = this.checkForVictory();
         if (victor)
@@ -204,14 +208,23 @@ export class Game {
         if (idsOfPlayersRaised.length != 0 && idsOfPlayersRaised.length != this.players.length) {
             console.log(`Raising time!`);
 
-            this.players.forEach(player => {
+            for (const player of this.players) {
                 if (!player.folded) {
                     victor = this.checkForVictory();
                     if (victor)
                         return of(null);
 
                     if (idsOfPlayersRaised.indexOf(player.id) == -1) {
-                        const action = player.raiseOrFold(amountRaised);
+                        let action: Action;
+
+                        if (player.id == 0) {
+                            this.enableButtons(true, player.chips < amountRaised, true);
+                            action = await player.getPlayerCheckOrFold();
+                            this.enableButtons(false);
+                        }
+                        else
+                            action = player.raiseOrFold(amountRaised);
+
                         if (action == Action.Fold)
                             player.fold();
                         else {
@@ -222,7 +235,7 @@ export class Game {
                         console.log(`${player.nickname} action: ${dictionaryActions[action]} betting: ${action == Action.Fold ? 0 : amountRaised}`);
                     }
                 }
-            });
+            };
             console.log(`Pot: ${this.pot}`);
         }
         victor = this.checkForVictory();
@@ -239,27 +252,16 @@ export class Game {
     }
 
     private remainingRounds(round: number) {
-        this.bet()
-            .subscribe(
-                () => { },
-                () => { },
-                () => {
-                    console.log("Betting completed for round " + round);
-
-                    this.dealCommunityCards(1);
-                }
-            );
+        this.bet().then(() => {
+            console.log("Betting completed for round " + round);
+            this.dealCommunityCards(1);
+        });
     }
 
     private lastRound() {
-        this.bet()
-            .subscribe(
-                () => { },
-                () => { },
-                () => {
-                    console.log("Betting for last round completed");
-                }
-            );
+        this.bet().then(() => {
+            console.log("Betting for last round completed");
+        });
     }
 
     private determineWinner() {
@@ -278,7 +280,7 @@ export class Game {
         for (let i = index + 1; i < this.players.length; i++) {
             if (this.players[i].folded)
                 continue;
-            
+
             const currentRank = this.players[i].handRanking;
             if (currentRank > bestRank) {
                 winner = this.players[i];
@@ -353,6 +355,20 @@ export class Game {
         }
 
         this.victorySubject.next(winner);
+    }
+
+    private enableButtons(enable: boolean, raising: boolean = false, check: boolean = false) {
+        this.playerButtons.forEach((button) => {
+            button.disabled = !enable;
+        });
+        if (raising) {
+            const raiseButton = document.getElementById("raiseButton") as HTMLButtonElement;
+            raiseButton.disabled = true;
+        }
+        if (check) {
+            const checkButton = document.getElementById("checkCallButton") as HTMLButtonElement;
+            checkButton.disabled = true;
+        }
     }
 
     public resetGame() {
