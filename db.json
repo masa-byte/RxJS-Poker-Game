@@ -1,316 +1,326 @@
 {
-    "deck_cards": [
-        {
-            "id": 0,
-            "color": "red",
-            "value": 1,
-            "suit": "heart"
-        },
-        {
-            "id": 1,
-            "color": "red",
-            "value": 2,
-            "suit": "heart"
-        },
-        {
-            "id": 2,
-            "color": "red",
-            "value": 3,
-            "suit": "heart"
-        },
-        {
-            "id": 3,
-            "color": "red",
-            "value": 4,
-            "suit": "heart"
-        },
-        {
-            "id": 4,
-            "color": "red",
-            "value": 5,
-            "suit": "heart"
-        },
-        {
-            "id": 5,
-            "color": "red",
-            "value": 6,
-            "suit": "heart"
-        },
-        {
-            "id": 6,
-            "color": "red",
-            "value": 7,
-            "suit": "heart"
-        },
-        {
-            "id": 7,
-            "color": "red",
-            "value": 8,
-            "suit": "heart"
-        },
-        {
-            "id": 8,
-            "color": "red",
-            "value": 9,
-            "suit": "heart"
-        },
-        {
-            "id": 9,
-            "color": "red",
-            "value": 10,
-            "suit": "heart"
-        },
-        {
-            "id": 11,
-            "color": "red",
-            "value": 12,
-            "suit": "heart"
-        },
-        {
-            "id": 12,
-            "color": "red",
-            "value": 13,
-            "suit": "heart"
-        },
-        {
-            "id": 13,
-            "color": "red",
-            "value": 14,
-            "suit": "heart"
-        },
-        {
-            "id": 14,
-            "color": "red",
-            "value": 1,
-            "suit": "diamond"
-        },
-        {
-            "id": 15,
-            "color": "red",
-            "value": 2,
-            "suit": "diamond"
-        },
-        {
-            "id": 16,
-            "color": "red",
-            "value": 3,
-            "suit": "diamond"
-        },
-        {
-            "id": 17,
-            "color": "red",
-            "value": 4,
-            "suit": "diamond"
-        },
-        {
-            "id": 18,
-            "color": "red",
-            "value": 5,
-            "suit": "diamond"
-        },
-        {
-            "id": 19,
-            "color": "red",
-            "value": 6,
-            "suit": "diamond"
-        },
-        {
-            "id": 20,
-            "color": "red",
-            "value": 7,
-            "suit": "diamond"
-        },
-        {
-            "id": 21,
-            "color": "red",
-            "value": 8,
-            "suit": "diamond"
-        },
-        {
-            "id": 22,
-            "color": "red",
-            "value": 9,
-            "suit": "diamond"
-        },
-        {
-            "id": 23,
-            "color": "red",
-            "value": 10,
-            "suit": "diamond"
-        },
-        {
-            "id": 25,
-            "color": "red",
-            "value": 12,
-            "suit": "diamond"
-        },
-        {
-            "id": 26,
-            "color": "red",
-            "value": 13,
-            "suit": "diamond"
-        },
-        {
-            "id": 27,
-            "color": "red",
-            "value": 14,
-            "suit": "diamond"
-        },
-        {
-            "id": 28,
-            "color": "black",
-            "value": 1,
-            "suit": "spade"
-        },
-        {
-            "id": 29,
-            "color": "black",
-            "value": 2,
-            "suit": "spade"
-        },
-        {
-            "id": 30,
-            "color": "black",
-            "value": 3,
-            "suit": "spade"
-        },
-        {
-            "id": 31,
-            "color": "black",
-            "value": 4,
-            "suit": "spade"
-        },
-        {
-            "id": 32,
-            "color": "black",
-            "value": 5,
-            "suit": "spade"
-        },
-        {
-            "id": 33,
-            "color": "black",
-            "value": 6,
-            "suit": "spade"
-        },
-        {
-            "id": 34,
-            "color": "black",
-            "value": 7,
-            "suit": "spade"
-        },
-        {
-            "id": 35,
-            "color": "black",
-            "value": 8,
-            "suit": "spade"
-        },
-        {
-            "id": 36,
-            "color": "black",
-            "value": 9,
-            "suit": "spade"
-        },
-        {
-            "id": 37,
-            "color": "black",
-            "value": 10,
-            "suit": "spade"
-        },
-        {
-            "id": 39,
-            "color": "black",
-            "value": 12,
-            "suit": "spade"
-        },
-        {
-            "id": 40,
-            "color": "black",
-            "value": 13,
-            "suit": "spade"
-        },
-        {
-            "id": 41,
-            "color": "black",
-            "value": 14,
-            "suit": "spade"
-        },
-        {
-            "id": 42,
-            "color": "black",
-            "value": 1,
-            "suit": "club"
-        },
-        {
-            "id": 43,
-            "color": "black",
-            "value": 2,
-            "suit": "club"
-        },
-        {
-            "id": 44,
-            "color": "black",
-            "value": 3,
-            "suit": "club"
-        },
-        {
-            "id": 45,
-            "color": "black",
-            "value": 4,
-            "suit": "club"
-        },
-        {
-            "id": 46,
-            "color": "black",
-            "value": 5,
-            "suit": "club"
-        },
-        {
-            "id": 47,
-            "color": "black",
-            "value": 6,
-            "suit": "club"
-        },
-        {
-            "id": 48,
-            "color": "black",
-            "value": 7,
-            "suit": "club"
-        },
-        {
-            "id": 49,
-            "color": "black",
-            "value": 8,
-            "suit": "club"
-        },
-        {
-            "id": 50,
-            "color": "black",
-            "value": 9,
-            "suit": "club"
-        },
-        {
-            "id": 51,
-            "color": "black",
-            "value": 10,
-            "suit": "club"
-        },
-        {
-            "id": 53,
-            "color": "black",
-            "value": 12,
-            "suit": "club"
-        },
-        {
-            "id": 54,
-            "color": "black",
-            "value": 13,
-            "suit": "club"
-        },
-        {
-            "id": 55,
-            "color": "black",
-            "value": 14,
-            "suit": "club"
-        }
-    ]
+  "deck_cards": [
+    {
+      "id": 0,
+      "color": "red",
+      "value": 1,
+      "suit": "heart"
+    },
+    {
+      "id": 1,
+      "color": "red",
+      "value": 2,
+      "suit": "heart"
+    },
+    {
+      "id": 2,
+      "color": "red",
+      "value": 3,
+      "suit": "heart"
+    },
+    {
+      "id": 3,
+      "color": "red",
+      "value": 4,
+      "suit": "heart"
+    },
+    {
+      "id": 4,
+      "color": "red",
+      "value": 5,
+      "suit": "heart"
+    },
+    {
+      "id": 5,
+      "color": "red",
+      "value": 6,
+      "suit": "heart"
+    },
+    {
+      "id": 6,
+      "color": "red",
+      "value": 7,
+      "suit": "heart"
+    },
+    {
+      "id": 7,
+      "color": "red",
+      "value": 8,
+      "suit": "heart"
+    },
+    {
+      "id": 8,
+      "color": "red",
+      "value": 9,
+      "suit": "heart"
+    },
+    {
+      "id": 9,
+      "color": "red",
+      "value": 10,
+      "suit": "heart"
+    },
+    {
+      "id": 11,
+      "color": "red",
+      "value": 12,
+      "suit": "heart"
+    },
+    {
+      "id": 12,
+      "color": "red",
+      "value": 13,
+      "suit": "heart"
+    },
+    {
+      "id": 13,
+      "color": "red",
+      "value": 14,
+      "suit": "heart"
+    },
+    {
+      "id": 14,
+      "color": "red",
+      "value": 1,
+      "suit": "diamond"
+    },
+    {
+      "id": 15,
+      "color": "red",
+      "value": 2,
+      "suit": "diamond"
+    },
+    {
+      "id": 16,
+      "color": "red",
+      "value": 3,
+      "suit": "diamond"
+    },
+    {
+      "id": 17,
+      "color": "red",
+      "value": 4,
+      "suit": "diamond"
+    },
+    {
+      "id": 18,
+      "color": "red",
+      "value": 5,
+      "suit": "diamond"
+    },
+    {
+      "id": 19,
+      "color": "red",
+      "value": 6,
+      "suit": "diamond"
+    },
+    {
+      "id": 20,
+      "color": "red",
+      "value": 7,
+      "suit": "diamond"
+    },
+    {
+      "id": 21,
+      "color": "red",
+      "value": 8,
+      "suit": "diamond"
+    },
+    {
+      "id": 22,
+      "color": "red",
+      "value": 9,
+      "suit": "diamond"
+    },
+    {
+      "id": 23,
+      "color": "red",
+      "value": 10,
+      "suit": "diamond"
+    },
+    {
+      "id": 25,
+      "color": "red",
+      "value": 12,
+      "suit": "diamond"
+    },
+    {
+      "id": 26,
+      "color": "red",
+      "value": 13,
+      "suit": "diamond"
+    },
+    {
+      "id": 27,
+      "color": "red",
+      "value": 14,
+      "suit": "diamond"
+    },
+    {
+      "id": 28,
+      "color": "black",
+      "value": 1,
+      "suit": "spade"
+    },
+    {
+      "id": 29,
+      "color": "black",
+      "value": 2,
+      "suit": "spade"
+    },
+    {
+      "id": 30,
+      "color": "black",
+      "value": 3,
+      "suit": "spade"
+    },
+    {
+      "id": 31,
+      "color": "black",
+      "value": 4,
+      "suit": "spade"
+    },
+    {
+      "id": 32,
+      "color": "black",
+      "value": 5,
+      "suit": "spade"
+    },
+    {
+      "id": 33,
+      "color": "black",
+      "value": 6,
+      "suit": "spade"
+    },
+    {
+      "id": 34,
+      "color": "black",
+      "value": 7,
+      "suit": "spade"
+    },
+    {
+      "id": 35,
+      "color": "black",
+      "value": 8,
+      "suit": "spade"
+    },
+    {
+      "id": 36,
+      "color": "black",
+      "value": 9,
+      "suit": "spade"
+    },
+    {
+      "id": 37,
+      "color": "black",
+      "value": 10,
+      "suit": "spade"
+    },
+    {
+      "id": 39,
+      "color": "black",
+      "value": 12,
+      "suit": "spade"
+    },
+    {
+      "id": 40,
+      "color": "black",
+      "value": 13,
+      "suit": "spade"
+    },
+    {
+      "id": 41,
+      "color": "black",
+      "value": 14,
+      "suit": "spade"
+    },
+    {
+      "id": 42,
+      "color": "black",
+      "value": 1,
+      "suit": "club"
+    },
+    {
+      "id": 43,
+      "color": "black",
+      "value": 2,
+      "suit": "club"
+    },
+    {
+      "id": 44,
+      "color": "black",
+      "value": 3,
+      "suit": "club"
+    },
+    {
+      "id": 45,
+      "color": "black",
+      "value": 4,
+      "suit": "club"
+    },
+    {
+      "id": 46,
+      "color": "black",
+      "value": 5,
+      "suit": "club"
+    },
+    {
+      "id": 47,
+      "color": "black",
+      "value": 6,
+      "suit": "club"
+    },
+    {
+      "id": 48,
+      "color": "black",
+      "value": 7,
+      "suit": "club"
+    },
+    {
+      "id": 49,
+      "color": "black",
+      "value": 8,
+      "suit": "club"
+    },
+    {
+      "id": 50,
+      "color": "black",
+      "value": 9,
+      "suit": "club"
+    },
+    {
+      "id": 51,
+      "color": "black",
+      "value": 10,
+      "suit": "club"
+    },
+    {
+      "id": 53,
+      "color": "black",
+      "value": 12,
+      "suit": "club"
+    },
+    {
+      "id": 54,
+      "color": "black",
+      "value": 13,
+      "suit": "club"
+    },
+    {
+      "id": 55,
+      "color": "black",
+      "value": 14,
+      "suit": "club"
+    }
+  ],
+  "player_chips": [
+    {
+      "0": 30,
+      "1": 30,
+      "2": 30,
+      "3": 30,
+      "4": 30,
+      "id": 1
+    }
+  ]
 }

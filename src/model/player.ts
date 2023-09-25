@@ -231,37 +231,54 @@ export class Player {
         }
     }
 
-    public play(): [Action, number] {
-        let cards = this.cards.concat(this.game.communityCards);
-        cards = cards.sort((a, b) => a.value - b.value);
+    public play(): Promise<[Action, number]> {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                let cards = this.cards.concat(this.game.communityCards);
+                cards = cards.sort((a, b) => a.value - b.value);
 
-        if (cards[0].value == 1)
-            cards.push(cards[0]);
+                if (cards[0].value == 1)
+                    cards.push(cards[0]);
 
-        this.handStrength = this.evaluateHand(cards);
-        console.log(`Player ${this.nickname} has ${dictionaryHandStrength[this.handStrength]} hand`);
+                this.handStrength = this.evaluateHand(cards);
+                console.log(`Player ${this.nickname} has ${dictionaryHandStrength[this.handStrength]} hand`);
 
-        if (this.handStrength === HandStrength.ExtremelyStrong) {
-            return [Action.Raise, Math.floor(this.chips / 2)];
-        }
-        else if (this.handStrength === HandStrength.Strong) {
-            const action = Math.random() * 100 < 80 ? Action.Raise : Action.CheckCall;
-            if (action === Action.Raise)
-                return [Action.Raise, Math.floor(this.chips / 4)];
-            else
-                return [Action.CheckCall, 0];
-        }
-        else if (this.handStrength === HandStrength.Mid) {
-            const action = Math.random() * 100 < 50 ? Action.Raise : Action.CheckCall;
-            if (action === Action.Raise)
-                return [Action.Raise, Math.floor(this.chips / 8)];
-            else
-                return [Action.CheckCall, 0];
-        }
-        else if (this.handStrength === HandStrength.Weak) {
-            const action = Math.random() * 100 < 90 ? Action.CheckCall : Action.Fold;
-            return [action, 0];
-        }
+                let action: Action;
+                let amount: number;
+
+                if (this.handStrength === HandStrength.ExtremelyStrong) {
+                    action = Action.Raise;
+                    amount = Math.floor(this.chips / 2);
+                }
+                else if (this.handStrength === HandStrength.Strong) {
+                    const act = Math.random() * 100 < 80 ? Action.Raise : Action.CheckCall;
+                    if (act === Action.Raise) {
+                        action = Action.Raise;
+                        amount = Math.floor(this.chips / 4);
+                    }
+                    else {
+                        action = Action.CheckCall;
+                        amount = 0;
+                    }
+                }
+                else if (this.handStrength === HandStrength.Mid) {
+                    const act = Math.random() * 100 < 50 ? Action.Raise : Action.CheckCall;
+                    if (act === Action.Raise) {
+                        action = Action.Raise;
+                        amount = Math.floor(this.chips / 8);
+                    }
+                    else {
+                        action = Action.CheckCall;
+                        amount = 0;
+                    }
+                }
+                else if (this.handStrength === HandStrength.Weak) {
+                    action = Math.random() * 100 < 90 ? Action.CheckCall : Action.Fold;
+                    amount = 0;
+                }
+                resolve([action, amount]);
+            }, 2000);
+        });
     }
 
     public addCard(card: Card) {
@@ -288,22 +305,26 @@ export class Player {
         this.resetCards(true);
     }
 
-    public raiseOrFold(amountRaised: number): Action {
-        if (this.chips < amountRaised)
-            return Action.Fold;
+    public raiseOrFold(amountRaised: number): Promise<Action> {
+        return new Promise((resolve) => {
+            setTimeout(() => {
+                if (this.chips < amountRaised)
+                    resolve(Action.Fold);
 
-        let coefficient = 0;
-        if (this.handStrength === HandStrength.ExtremelyStrong)
-            coefficient = 1;
-        else if (this.handStrength === HandStrength.Strong)
-            coefficient = 0.8;
-        else if (this.handStrength === HandStrength.Mid)
-            coefficient = 0.6;
-        else if (this.handStrength === HandStrength.Weak)
-            coefficient = 0.5;
+                let coefficient = 0;
+                if (this.handStrength === HandStrength.ExtremelyStrong)
+                    coefficient = 1;
+                else if (this.handStrength === HandStrength.Strong)
+                    coefficient = 0.8;
+                else if (this.handStrength === HandStrength.Mid)
+                    coefficient = 0.6;
+                else if (this.handStrength === HandStrength.Weak)
+                    coefficient = 0.5;
 
-        const action = Math.random() * 100 < coefficient * 100 ? Action.Raise : Action.Fold;
-        return action;
+                const action = Math.random() * 100 < coefficient * 100 ? Action.Raise : Action.Fold;
+                resolve(action);
+            }, 2000);
+        });
     }
 
     getPlayerAction(): Promise<[Action, number]> {
@@ -322,13 +343,13 @@ export class Player {
             console.log(`Player ${this.nickname} has ${dictionaryHandStrength[this.handStrength]} hand`);
 
             let amountRaised = 0;
-            if (this.handStrength === HandStrength.ExtremelyStrong) 
+            if (this.handStrength === HandStrength.ExtremelyStrong)
                 amountRaised = Math.floor(this.chips / 2);
-            else if (this.handStrength === HandStrength.Strong) 
-                    amountRaised = Math.floor(this.chips / 4);
-            else if (this.handStrength === HandStrength.Mid) 
+            else if (this.handStrength === HandStrength.Strong)
+                amountRaised = Math.floor(this.chips / 4);
+            else if (this.handStrength === HandStrength.Mid)
                 amountRaised = Math.floor(this.chips / 8);
-            else if (this.handStrength === HandStrength.Weak) 
+            else if (this.handStrength === HandStrength.Weak)
                 amountRaised = Math.floor(this.chips / 16)
 
             raiseButton.addEventListener('click', () => {

@@ -29,7 +29,8 @@ export class Game {
         this.cards = [];
         this.communityCards = [];
         this.communityCardsDisplay = communityCardsDisplay;
-        this.playerButtons = document.querySelectorAll("button") as unknown as HTMLButtonElement[];
+        const player0Div = document.querySelector(".player0");
+        this.playerButtons = player0Div.querySelectorAll("button") as unknown as HTMLButtonElement[];
         this.roundSubject = new Subject();
         this.victorySubject = new Subject();
 
@@ -133,7 +134,7 @@ export class Game {
                 });
             });
     }
-
+    
     private dealCommunityCards(numCards: number) {
         const deckObservable = from(this.filteredCards);
         const dealCardsObservable = deckObservable.pipe(
@@ -162,7 +163,7 @@ export class Game {
                     return of(null);
 
                 if (idsOfPlayersRaised.length != 0) {
-                    const action = player.raiseOrFold(amountRaised);
+                    const action = await player.raiseOrFold(amountRaised);
                     if (action == Action.Fold) {
                         player.fold();
                     }
@@ -181,7 +182,7 @@ export class Game {
                         this.enableButtons(false);
                     }
                     else
-                        [action, bet] = player.play();
+                        [action, bet] = await player.play();
 
                     console.log(`${player.nickname} action: ${dictionaryActions[action]} betting: ${bet}`);
                     switch (action) {
@@ -223,7 +224,7 @@ export class Game {
                             this.enableButtons(false);
                         }
                         else
-                            action = player.raiseOrFold(amountRaised);
+                            action = await player.raiseOrFold(amountRaised);
 
                         if (action == Action.Fold)
                             player.fold();

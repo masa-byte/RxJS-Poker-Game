@@ -1,17 +1,21 @@
-import { Subscription, combineLatest, startWith } from "rxjs";
+import { Observable, Subject, Subscription, combineLatest, from, startWith } from "rxjs";
 import { playerNicknameObservable, playerChipsObservable } from "./observables";
 import { Timer } from "../model/timer";
 import { GameTimer } from "../model/gameTimer";
 import { Game } from "../model/game";
 import { Player } from "../model/player";
 import { dictionaryHandRankings } from "../model/enumerations/handRankings";
-import { numberOfPlayers } from "../environments";
+import { environments, numberOfPlayers } from "../environments";
 
+let players: Player[] = [];
+let subject: Subject<number> = new Subject();
 
 export function start() {
+    addEventListener();
+
     const timer = new Timer();
     const gameTimer = new GameTimer();
-    
+
     const spanTimer = document.getElementById("timer");
     const spanPlayerName = document.getElementById("playerName");
 
@@ -21,7 +25,7 @@ export function start() {
     const playerChipsInput = document.getElementById("playerChipsInput");
     const playerChipsObs = playerChipsObservable(playerChipsInput);
 
-    const players = [new Player(0, undefined, document.getElementById("chips0"),
+    players = [new Player(0, undefined, document.getElementById("chips0"),
         [document.body.querySelector(".playerCards0 .playerCard0"), document.body.querySelector(".playerCards0 .playerCard1")] as HTMLElement[])];
 
     for (let i = 1; i < numberOfPlayers; i++) {
@@ -34,11 +38,13 @@ export function start() {
 
     const combined = combineLatest([
         playerNicknameObs.pipe(startWith('')),
-        playerChipsObs.pipe(startWith(0))
+        playerChipsObs.pipe(startWith(0)),
+        subject.pipe(startWith(0))
     ]);
 
-    combined.subscribe(([playerNick, playerChips]) => {
+    combined.subscribe(([playerNick, playerChips, playAgain]) => {
         enableButtons(false);
+        enablePlayAgainButton(false);
         gameTimer.stop();
         game.resetGame();
         if (gameSubscription) {
@@ -132,6 +138,7 @@ function startGame(timer: GameTimer, players: Player[], gameSubscription: Subscr
         if (victor != "n/a") {
             victor = victor as Player;
             spanNotification.innerText = `Game ended! ${victor.nickname} won with ${dictionaryHandRankings[victor.handRanking]}! Congratulations!`;
+            enablePlayAgainButton(true);
             gameSubscription.unsubscribe();
         }
     });
@@ -140,8 +147,74 @@ function startGame(timer: GameTimer, players: Player[], gameSubscription: Subscr
 }
 
 function enableButtons(enable: boolean) {
-    const buttons = document.querySelectorAll("button");
+    const player0Div = document.querySelector(".player0");
+    const buttons = player0Div.querySelectorAll("button");
     buttons.forEach((button) => {
         button.disabled = !enable;
+    });
+}
+
+function enablePlayAgainButton(enable: boolean) {
+    const playAgainButton = document.getElementById("playAgainButton") as HTMLButtonElement;
+    playAgainButton.disabled = !enable;
+}
+
+function savePlayerChips(players: Player[]) {
+    console.log('Saving player chips...');
+    const playerChips: { [key: number]: number } = {};
+
+    players.forEach((player: Player) => {
+        playerChips[player.id] = player.chips;
+    });
+
+    // fetch(`${environments.API_URL}/player_chips`, {
+    //     method: 'POST',
+    //     headers: {
+    //         'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify(playerChips),
+    // })
+    //     .then((res) => {
+    //         if (res.ok) {
+    //             console.log('Player chips saved successfully');
+    //         } else {
+    //             console.error('Failed to save player chips');
+    //         }
+    //     })
+    //     .catch((err) => {
+    //         console.error('Error while saving player chips:', err);
+    //     });
+}
+
+function loadPlayerChips(players: Player[]) {
+    fetch(`${environments.API_URL}/player_chips`)
+        .then((res) => {
+            if (res.ok) {
+                return res.json();
+            } else {
+                throw new Error('Failed to fetch player chips');
+            }
+        })
+        .then((playerChips) => {
+            players.forEach((player: Player) => {
+                if (playerChips[0][player.id] !== undefined) {
+                    player.updateChips(playerChips[0][player.id]);
+                }
+            });
+            console.log('Player chips fetched successfully');
+            subject.next(1);
+        })
+        .catch((err) => {
+            console.error('Error while fetching player chips:', err);
+        });
+}
+
+function addEventListener() {
+    const playAgainButton = document.getElementById("playAgainButton") as HTMLButtonElement;
+    playAgainButton.addEventListener("click", (event) => {
+        event.preventDefault();
+        console.log("Play again!");
+        savePlayerChips(players);
+        loadPlayerChips(players);
     });
 }

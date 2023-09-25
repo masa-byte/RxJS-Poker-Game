@@ -25,12 +25,18 @@ export function drawPlayerInput(container: HTMLElement) {
     inputChips.id = "playerChipsInput";
     inputChips.textContent = ""
 
+    const playAgainButton = document.createElement("button");
+    playAgainButton.id = "playAgainButton";
+    playAgainButton.innerText = "Play again";
+
     divNick.appendChild(labelNick);
     divNick.appendChild(inputNick);
     divChips.appendChild(labelChips);
     divChips.appendChild(inputChips);
+
     container.appendChild(divNick);
     container.appendChild(divChips);
+    container.appendChild(playAgainButton);
 }
 
 export function drawTimer(container: HTMLElement) {
